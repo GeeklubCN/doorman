@@ -5,5 +5,5 @@ import (
 )
 
 type Factory interface {
-	create(id core.Identification) (string, error)
+	Create(id core.Identification) (string, error)
 }

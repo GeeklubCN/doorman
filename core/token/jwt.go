@@ -23,7 +23,18 @@ type jwtFactory struct {
 	notBefore     time.Time
 }
 
-func (j *jwtFactory) verify(token string) (core.Identification, bool) {
+func (j *jwtFactory) Create(id core.Identification) (string, error) {
+	token := jwt.NewWithClaims(j.signingMethod, claims{
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(j.expiresAt()),
+			Issuer:    j.issuer,
+		},
+		Id: id,
+	})
+	return token.SignedString(j.secret)
+}
+
+func (j *jwtFactory) Verify(token string) (core.Identification, bool) {
 	c := claims{}
 	if _, err := jwt.ParseWithClaims(token, &c, JwtFactory.verifyKey); err != nil {
 		return "", false
@@ -34,17 +45,6 @@ func (j *jwtFactory) verify(token string) (core.Identification, bool) {
 type claims struct {
 	jwt.RegisteredClaims
 	Id core.Identification `json:"id"`
-}
-
-func (j *jwtFactory) create(id core.Identification) (string, error) {
-	token := jwt.NewWithClaims(j.signingMethod, claims{
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(j.expiresAt()),
-			Issuer:    j.issuer,
-		},
-		Id: id,
-	})
-	return token.SignedString(j.secret)
 }
 
 func (j *jwtFactory) expiresAt() time.Time {

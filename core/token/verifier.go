@@ -5,5 +5,5 @@ import (
 )
 
 type Verifier interface {
-	verify(token string) (core.Identification, bool)
+	Verify(token string) (core.Identification, bool)
 }
