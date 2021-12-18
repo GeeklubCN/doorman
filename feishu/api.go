@@ -2,25 +2,14 @@ package feishu
 
 import (
 	"fmt"
+	"github.com/geeklubcn/doorman/conf"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 )
 
-var A Api
-
-func Init(c Config) {
-	A = &api{
-		client: &http.Client{},
-		config: c,
-	}
-}
-
-type Config struct {
-	BaseUrl      string
-	ClientId     string
-	ClientSecret string
-	RedirectUri  string
+var A Api = &api{
+	client: &http.Client{},
 }
 
 type Api interface {
@@ -30,16 +19,15 @@ type Api interface {
 
 type api struct {
 	client *http.Client
-	config Config
 }
 
 func (a *api) getToken(code string) ([]byte, error) {
-	resp, err := http.PostForm(fmt.Sprintf("%s/suite/passport/oauth/token", a.config.BaseUrl), url.Values{
+	resp, err := http.PostForm(fmt.Sprintf("%s/suite/passport/oauth/token", conf.Feishu.BaseUrl), url.Values{
 		"grant_type":    {"authorization_code"},
-		"client_id":     {a.config.ClientId},
-		"client_secret": {a.config.ClientSecret},
+		"client_id":     {conf.Feishu.ClientId},
+		"client_secret": {conf.Feishu.ClientSecret},
 		"code":          {code},
-		"redirect_uri":  {a.config.RedirectUri},
+		"redirect_uri":  {conf.Feishu.RedirectUri},
 	})
 	if err != nil {
 		return nil, err
@@ -49,7 +37,7 @@ func (a *api) getToken(code string) ([]byte, error) {
 }
 
 func (a *api) getUserInfo(authorization string) ([]byte, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/suite/passport/oauth/userinfo", a.config.BaseUrl), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/suite/passport/oauth/userinfo", conf.Feishu.BaseUrl), nil)
 	if err != nil {
 		return nil, err
 	}
