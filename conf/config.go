@@ -10,6 +10,16 @@ var (
 	Feishu *feishu
 )
 
+const (
+	Domain             = "DOMAIN"
+	CookieDomain       = "COOKIE_DOMAIN"
+	CookieKey          = "COOKIE_KEY"
+	FeishuBaseurl      = "FEISHU_BASEURL"
+	FeishuClientid     = "FEISHU_CLIENTID"
+	FeishuClientsecret = "FEISHU_CLIENTSECRET"
+	FeishuRedirecturi  = "FEISHU_REDIRECTURI"
+)
+
 func Init() {
 	Config = &config{}
 
@@ -25,8 +35,32 @@ func Init() {
 		logrus.Panicf("Fatal error unmarshal config file: %s \n", err)
 	}
 
-	Feishu = Config.Feishu
 	logrus.Debugf("read config yaml and parsed. config:%s. feishu:%s", Config, Feishu)
+	// load env
+	v.AutomaticEnv()
+	if v.IsSet(Domain) {
+		Config.Domain = v.GetString(Domain)
+	}
+	if v.IsSet(CookieDomain) {
+		Config.Cookie.Domain = v.GetString(CookieDomain)
+	}
+	if v.IsSet(CookieKey) {
+		Config.Cookie.Key = v.GetString(CookieKey)
+	}
+	if v.IsSet(FeishuBaseurl) {
+		Config.Feishu.BaseUrl = v.GetString(FeishuBaseurl)
+	}
+	if v.IsSet(FeishuClientid) {
+		Config.Feishu.ClientId = v.GetString(FeishuClientid)
+	}
+	if v.IsSet(FeishuClientsecret) {
+		Config.Feishu.ClientSecret = v.GetString(FeishuClientsecret)
+	}
+	if v.IsSet(FeishuRedirecturi) {
+		Config.Feishu.RedirectUri = v.GetString(FeishuRedirecturi)
+	}
+
+	Feishu = Config.Feishu
 }
 
 type config struct {
