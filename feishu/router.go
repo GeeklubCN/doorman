@@ -19,8 +19,13 @@ func NewRouter(s state.State) route.Router {
 	}
 }
 
-func (r *router) LoginUrl() string {
+func (r *router) SourceUrl(s string) string {
+	uri, _ := r.state.Decode(s)
+	return uri
+}
+
+func (r *router) LoginUrl(s string) string {
 	redirectUrl := url.PathEscape(conf.Feishu.RedirectUri)
 	return fmt.Sprintf("%s/suite/passport/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s&state=%s",
-		conf.Feishu.BaseUrl, conf.Feishu.ClientId, redirectUrl, r.state.Encode(conf.Feishu.RedirectUri))
+		conf.Feishu.BaseUrl, conf.Feishu.ClientId, redirectUrl, r.state.Encode(fmt.Sprintf("%s?%s", conf.Feishu.RedirectUri, s)))
 }

@@ -1,5 +1,6 @@
 package route
 
 type Router interface {
-	LoginUrl() string
+	SourceUrl(state string) string
+	LoginUrl(state string) string
 }
