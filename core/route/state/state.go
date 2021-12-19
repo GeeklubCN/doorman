@@ -3,8 +3,8 @@ package state
 import "net/url"
 
 type State interface {
-	Encode(escapedUrl string) string
-	Decode(rawUrl string) (string, error)
+	Encode(rawUrl string) string
+	Decode(escapedUrl string) (string, error)
 }
 
 type SimpleState struct{}

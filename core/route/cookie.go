@@ -5,7 +5,7 @@ import (
 )
 
 type TokenCookie interface {
-	Token(r http.Request) string
+	Token(r *http.Request) string
 	Cookie(token string) http.Cookie
 }
 type tokenCookie struct {
@@ -20,9 +20,9 @@ func NewTokenCookie(key, domain string) TokenCookie {
 	}
 }
 
-func (t *tokenCookie) Token(r http.Request) string {
+func (t *tokenCookie) Token(r *http.Request) string {
 	for _, c := range r.Cookies() {
-		if c.Value == t.key {
+		if c.Name == t.key {
 			return c.Value
 		}
 	}
@@ -32,7 +32,7 @@ func (t *tokenCookie) Token(r http.Request) string {
 func (t *tokenCookie) Cookie(token string) http.Cookie {
 	return http.Cookie{
 		Domain: t.domain,
-		Path:   t.key,
+		Name:   t.key,
 		Value:  token,
 	}
 }
