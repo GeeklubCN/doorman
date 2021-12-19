@@ -2,7 +2,15 @@
 
 - SSO
 
-## 单点登录｜SSO
+## 使用方式
+
+### Docker
+
+修改 `docker-custom-conf.yaml` 配置
+
+```shell
+docker run -v $PWD/docker-custom-conf.yaml:/go/src/github.com/geeklubcn/doorman/conf/config.yaml:ro wangyuheng/doorman:v1
+```
 
 ### 飞书｜Feishu
 
@@ -25,6 +33,7 @@ feishu:
 ```
 
 #### 参考
+
 - https://open.feishu.cn/document/common-capabilities/sso/web-application-sso/web-app-overview
 
 ### 钉钉｜Dingtalk
@@ -35,6 +44,22 @@ feishu:
 
 **【TBD】**
 
-### 参考
+## SDK
+
+### Golang
+
+下载依赖包
+
+```shell
+go get github.com/geeklubcn/doorman/middleware
+```
+
+使用middleware
+
+```shell
+r.Use(middleware.SSO("doorman_token", "http://sso.geeklub.cn"))
+```
+
+## 参考
 
 - Jwt: https://jwt.io
