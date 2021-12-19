@@ -5,7 +5,7 @@ import (
 )
 
 type Identifier interface {
-	Identify(code string) core.Identification
+	Identify(code string) (core.Identification, bool)
 }
 
 type FakeIdentifier struct{}
