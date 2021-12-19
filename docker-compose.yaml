@@ -1,0 +1,15 @@
+version: '3'
+services:
+  doorman:
+#    build: .
+    image: wangyuheng/doorman:v1
+    ports:
+      - "80:80"
+    environment:
+      - DOMAIN="http://sso.geeklub.cn"
+      - COOKIE_DOMAIN="doorman_token"
+      - COOKIE_KEY="sso.geeklub.cn"
+      - FEISHU_BASEURL="https://passport.feishu.cn"
+      - FEISHU_CLIENTID="cli_xxxx"
+      - FEISHU_CLIENTSECRET="6nTXxxx"
+      - FEISHU_REDIRECTURI="http://sso.geeklub.cn"

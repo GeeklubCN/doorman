@@ -12,6 +12,22 @@
 docker run -v $PWD/docker-custom-conf.yaml:/go/src/github.com/geeklubcn/doorman/conf/config.yaml:ro wangyuheng/doorman:v1
 ```
 
+### Docker Compose
+
+修改 `docker-compose.yaml` 的环境变量
+
+```shell
+docker-compose up
+```
+
+## 开发
+
+### Docker
+
+```shell
+docker build -t wangyuheng/doorman:v1 .
+```
+
 ### 飞书｜Feishu
 
 #### 1. 按照[官方文档](https://open.feishu.cn/document/home/introduction-to-custom-app-development/self-built-application-development-process)创建应用，获取 clientId及clientSecret

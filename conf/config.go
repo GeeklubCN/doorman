@@ -34,8 +34,6 @@ func Init() {
 	if err = v.Unmarshal(Config); err != nil {
 		logrus.Panicf("Fatal error unmarshal config file: %s \n", err)
 	}
-
-	logrus.Debugf("read config yaml and parsed. config:%s. feishu:%s", Config, Feishu)
 	// load env
 	v.AutomaticEnv()
 	if v.IsSet(Domain) {
@@ -61,6 +59,8 @@ func Init() {
 	}
 
 	Feishu = Config.Feishu
+
+	logrus.Debugf("read config yaml and parsed. config:%s. feishu:%s", Config, Feishu)
 }
 
 type config struct {
