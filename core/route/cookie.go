@@ -9,20 +9,20 @@ type TokenCookie interface {
 	Cookie(token string) http.Cookie
 }
 type tokenCookie struct {
-	key    string
+	name   string
 	domain string
 }
 
-func NewTokenCookie(key, domain string) TokenCookie {
+func NewTokenCookie(name, domain string) TokenCookie {
 	return &tokenCookie{
-		key:    key,
+		name:   name,
 		domain: domain,
 	}
 }
 
 func (t *tokenCookie) Token(r *http.Request) string {
 	for _, c := range r.Cookies() {
-		if c.Name == t.key {
+		if c.Name == t.name {
 			return c.Value
 		}
 	}
@@ -32,7 +32,7 @@ func (t *tokenCookie) Token(r *http.Request) string {
 func (t *tokenCookie) Cookie(token string) http.Cookie {
 	return http.Cookie{
 		Domain: t.domain,
-		Name:   t.key,
+		Name:   t.name,
 		Value:  token,
 	}
 }

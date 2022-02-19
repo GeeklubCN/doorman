@@ -15,15 +15,15 @@ const (
 	FEISHU = iota
 )
 
-func Register(mode int8) *Fact {
+func Register(mode int8, config conf.Config) *Fact {
 	switch mode {
 	case FEISHU:
 		return &Fact{
-			feishu.Identifier,
+			feishu.NewIdentifier(feishu.NewApi(config.Feishu)),
 			token.Jwt,
 			token.Jwt,
-			route.NewTokenCookie(conf.Config.Cookie.Key, conf.Config.Cookie.Domain),
-			feishu.NewRouter(state.SimpleState{}),
+			route.NewTokenCookie(config.Cookie.Name, config.Cookie.Domain),
+			feishu.NewRouter(state.SimpleState{}, config.Feishu),
 		}
 	}
 	log.Fatalf("Unsupport mode: %d", mode)

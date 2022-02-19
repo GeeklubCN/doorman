@@ -2,17 +2,23 @@ package feishu
 
 import (
 	"encoding/json"
+
+	"github.com/geeklubcn/doorman/core/auth"
 	"github.com/sirupsen/logrus"
 
 	"github.com/geeklubcn/doorman/core"
 )
 
-var Identifier = &identifier{}
+type identifier struct {
+	api Api
+}
 
-type identifier struct{}
+func NewIdentifier(api Api) auth.Identifier {
+	return &identifier{api}
+}
 
 func (f *identifier) Identify(code string) (core.Identification, bool) {
-	body, err := A.getToken(code)
+	body, err := f.api.getToken(code)
 	if err != nil {
 		logrus.Errorf("get token fail! code:%s.", code, err)
 		return "", false
@@ -23,7 +29,7 @@ func (f *identifier) Identify(code string) (core.Identification, bool) {
 		logrus.Errorf("token illegal! body:%s.", body, err)
 		return "", false
 	}
-	body, err = A.getUserInfo(t.getAuthorization())
+	body, err = f.api.getUserInfo(t.getAuthorization())
 	if err != nil {
 		logrus.Errorf("get user info fail! auth:%s.", t.getAuthorization(), err)
 		return "", false

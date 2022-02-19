@@ -1,9 +1,9 @@
 domain: "http://sso.geeklub.cn"
 cookie:
-  key: "doorman_token"
+  name: "doorman_token"
   domain: "sso.geeklub.cn"
 feishu:
-  baseUrl: "https://passport.feishu.cn"
-  clientId: "cli_xxx"
-  clientSecret: "6nTXxxxx"
-  redirectUri: "http://sso.geeklub.cn"
+  base_url: "https://passport.feishu.cn"
+  client_id: "cli_xxx"
+  client_secret: "6nTXxxxx"
+  redirect_uri: "http://sso.geeklub.cn"
