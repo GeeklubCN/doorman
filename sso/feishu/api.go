@@ -1,6 +1,8 @@
 package feishu
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -51,7 +53,19 @@ func (a *api) getUserInfo(authorization string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return ioutil.ReadAll(resp.Body)
+	res, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var r userInfoResp
+	err = json.Unmarshal(res, &r)
+	if err != nil {
+		return nil, err
+	}
+	if r.Code != 0 {
+		return nil, errors.New(r.Message)
+	}
+	return res, nil
 }
 
 type oauthToken struct {
@@ -64,6 +78,11 @@ type oauthToken struct {
 
 func (t *oauthToken) getAuthorization() string {
 	return fmt.Sprintf("%s %s", t.TokenType, t.AccessToken)
+}
+
+type userInfoResp struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
 type UserInfo struct {

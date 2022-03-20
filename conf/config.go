@@ -1,9 +1,10 @@
 package conf
 
 type Config struct {
-	Domain string
-	Cookie Cookie `mapstructure:"cookie"`
-	Feishu Feishu `mapstructure:"feishu"`
+	Domain   string
+	RealAddr []string `mapstructure:"real_addr"`
+	Cookie   Cookie   `mapstructure:"cookie"`
+	Feishu   Feishu   `mapstructure:"feishu"`
 }
 
 type Cookie struct {

@@ -8,7 +8,7 @@ import (
 	"github.com/geeklubcn/doorman/core/route"
 	"github.com/geeklubcn/doorman/core/route/state"
 	"github.com/geeklubcn/doorman/core/token"
-	"github.com/geeklubcn/doorman/feishu"
+	"github.com/geeklubcn/doorman/sso/feishu"
 )
 
 const (

@@ -1,4 +1,6 @@
 domain: "http://sso.geeklub.cn"
+real_addr:
+  - "http://localhost:8001"
 cookie:
   name: "doorman_token"
   domain: "sso.geeklub.cn"
@@ -6,4 +8,4 @@ feishu:
   base_url: "https://passport.feishu.cn"
   client_id: "cli_xxx"
   client_secret: "6nTXxxxx"
-  redirect_uri: "http://sso.geeklub.cn"
+  redirect_uri: "http://sso.geeklub.cn/doorman"
