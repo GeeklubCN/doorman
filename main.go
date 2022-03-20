@@ -1,20 +1,21 @@
 package main
 
 import (
-	"flag"
 	"log"
 
-	"github.com/geeklubcn/doorman/conf"
+	"github.com/geeklubcn/doorman/middleware"
+	"github.com/geeklubcn/doorman/proxy"
 	"github.com/geeklubcn/doorman/sso"
+
+	"github.com/geeklubcn/doorman/conf"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	configPath := flag.String("c", "./conf/config.yaml", "Path to the configuration filename")
-	flag.Parse()
+	cmd := parseCmd()
 
-	config, err := conf.NewParser().Parse(*configPath)
+	config, err := conf.NewParser().Parse(cmd.configPath)
 	if err != nil {
 		logrus.Fatal("read config fail: ", err)
 	}
@@ -29,7 +30,15 @@ func main() {
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 	}
 	r := gin.New()
-	r.Any("/", sso.Handler(f))
+	r.Use(middleware.SSO(config.Cookie.Name, config.Domain+"/doorman"))
+
+	r.Any("/*Any", func(ctx *gin.Context) {
+		if ctx.Request.URL.Path == "/doorman" {
+			sso.Handler(f)(ctx)
+			return
+		}
+		proxy.NewGinHandler(config.RealAddr)(ctx)
+	})
 
 	err = r.Run(":80")
 	if err != nil {
