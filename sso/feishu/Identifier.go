@@ -29,10 +29,10 @@ func (f *identifier) Identify(code string) (core.Identification, bool) {
 		logrus.Errorf("token illegal! body:%s.", body, err)
 		return "", false
 	}
-	body, err = f.api.getUserInfo(t.getAuthorization())
+	userInfo, err := f.api.getUserInfo(t.getAuthorization())
 	if err != nil {
 		logrus.Errorf("get user info fail! auth:%s.", t.getAuthorization(), err)
 		return "", false
 	}
-	return core.Identification(body), true
+	return core.Identification(userInfo), true
 }
