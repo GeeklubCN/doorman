@@ -19,6 +19,7 @@ func Handler(f *Fact) gin.HandlerFunc {
 				c.SetCookie(cookie.Name, cookie.Value, cookie.MaxAge, cookie.Path, cookie.Domain, false, true)
 			}
 			c.Redirect(http.StatusFound, rUrl+"?doorman_token="+token)
+			c.Abort()
 			return
 		}
 		// callback
@@ -33,11 +34,13 @@ func Handler(f *Fact) gin.HandlerFunc {
 					c.SetCookie(cookie.Name, cookie.Value, cookie.MaxAge, cookie.Path, cookie.Domain, cookie.Secure, cookie.HttpOnly)
 				}
 				c.Redirect(http.StatusFound, f.Router.SourceUrl(state))
+				c.Abort()
 				return
 			}
 		}
 		// redirectToLogin
 		c.Redirect(http.StatusFound, f.Router.LoginUrl(c.Request.URL.RawQuery))
+		c.Abort()
 		return
 	}
 }
