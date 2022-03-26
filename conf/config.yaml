@@ -9,3 +9,9 @@ feishu:
   client_id: "cli_xxx"
   client_secret: "6nTXxxxx"
   redirect_uri: "http://sso.geeklub.cn/doorman"
+dingtalk:
+  api_url: "https://api.dingtalk.com"
+  login_url: "https://login.dingtalk.com"
+  client_id: "dingxxx"
+  client_secret: "rxxx"
+  redirect_uri: "http://sso.geeklub.cn/doorman"

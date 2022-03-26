@@ -54,7 +54,34 @@ feishu:
 
 ### 钉钉｜Dingtalk
 
-**【TBD】**
+#### 1. 按照[官方文档](https://open.dingtalk.com/document/org/create-orgapp)创建H5网页应用，获取 clientId及clientSecret
+
+![doorman-dingtalk-app](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-app.png)
+
+#### 2. 管理后台->应用功能->登录与分享->回调域名
+
+![doorman-dingtalk-security](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-security.png)
+
+#### 3. 管理后台->基础信息->权限管理
+
+添加 **通讯录个人信息读权限** 权限
+
+![doorman-dingtalk-permission](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-permission.png)
+
+#### 4. 配置yaml配置文件
+
+```yaml
+dingtalk:
+  api_url: "https://api.dingtalk.com"
+  login_url: "https://login.dingtalk.com"
+  client_id: "dingxxx"
+  client_secret: "rxxx"
+  redirect_uri: "http://sso.geeklub.cn/doorman"
+```
+
+#### 参考
+
+- https://open.dingtalk.com/document/isvapp-server/obtain-identity-credentials
 
 ### 企业微信｜weixin
 
