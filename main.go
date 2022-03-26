@@ -23,7 +23,7 @@ func main() {
 		logrus.Fatal("init config fail: ", err)
 	}
 
-	f := sso.Register(sso.FEISHU, config)
+	f := sso.Register(sso.DINGTALK, config)
 
 	if gin.Mode() == gin.DebugMode {
 		logrus.SetLevel(logrus.DebugLevel)

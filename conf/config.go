@@ -5,6 +5,7 @@ type Config struct {
 	RealAddr []string `mapstructure:"real_addr"`
 	Cookie   Cookie   `mapstructure:"cookie"`
 	Feishu   Feishu   `mapstructure:"feishu"`
+	Dingtalk Dingtalk `mapstructure:"dingtalk"`
 }
 
 type Cookie struct {
@@ -14,6 +15,14 @@ type Cookie struct {
 
 type Feishu struct {
 	BaseUrl      string `mapstructure:"base_url"`
+	ClientId     string `mapstructure:"client_id"`
+	ClientSecret string `mapstructure:"client_secret"`
+	RedirectUri  string `mapstructure:"redirect_uri"`
+}
+
+type Dingtalk struct {
+	ApiUrl       string `mapstructure:"api_url"`
+	LoginUrl     string `mapstructure:"login_url"`
 	ClientId     string `mapstructure:"client_id"`
 	ClientSecret string `mapstructure:"client_secret"`
 	RedirectUri  string `mapstructure:"redirect_uri"`

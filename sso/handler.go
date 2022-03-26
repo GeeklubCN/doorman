@@ -23,8 +23,8 @@ func Handler(f *Fact) gin.HandlerFunc {
 			return
 		}
 		// callback
-		code := c.Query("code")
-		state := c.Query("state")
+		code := c.Query(f.GetCode())
+		state := c.Query(f.GetState())
 		if code != "" {
 			id, pass := f.Identifier.Identify(code)
 			if pass {
