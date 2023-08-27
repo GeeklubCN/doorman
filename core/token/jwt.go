@@ -3,8 +3,8 @@ package token
 import (
 	"time"
 
-	"github.com/geeklubcn/doorman/core"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/wangyuheng/doorman/core"
 )
 
 var Jwt = &jwtToken{

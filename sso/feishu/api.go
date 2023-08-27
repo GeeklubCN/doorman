@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/geeklubcn/doorman/conf"
+	"github.com/wangyuheng/doorman/config"
 )
 
 type Api interface {
@@ -16,7 +16,7 @@ type Api interface {
 	getUserInfo(authorization string) ([]byte, error)
 }
 
-func NewApi(config conf.Feishu) Api {
+func NewApi(config config.Feishu) Api {
 	return &api{
 		client: &http.Client{},
 		config: config,
@@ -25,7 +25,7 @@ func NewApi(config conf.Feishu) Api {
 
 type api struct {
 	client *http.Client
-	config conf.Feishu
+	config config.Feishu
 }
 
 func (a *api) getToken(code string) ([]byte, error) {

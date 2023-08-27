@@ -3,10 +3,10 @@ package dingtalk
 import (
 	"encoding/json"
 
-	"github.com/geeklubcn/doorman/core/auth"
 	"github.com/sirupsen/logrus"
+	"github.com/wangyuheng/doorman/core/auth"
 
-	"github.com/geeklubcn/doorman/core"
+	"github.com/wangyuheng/doorman/core"
 )
 
 type identifier struct {

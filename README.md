@@ -9,7 +9,7 @@
 修改 `docker-custom-conf.yaml` 配置
 
 ```shell
-docker run -v $PWD/docker-custom-conf.yaml:/go/src/github.com/geeklubcn/doorman/conf/config.yaml:ro wangyuheng/doorman:v1
+docker run -v $PWD/docker-custom-config.yaml:/go/src/github.com/wangyuheng/doorman/config/config.yaml:ro wangyuheng/doorman:v1
 ```
 
 ### Docker Compose
@@ -32,11 +32,11 @@ docker build -t wangyuheng/doorman:v1 .
 
 #### 1. 按照[官方文档](https://open.feishu.cn/document/home/introduction-to-custom-app-development/self-built-application-development-process)创建应用，获取 clientId及clientSecret
 
-![doorman-feishu-app](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-feishu-app.png)
+![doorman-feishu-app](https://raw.githubusercontent.com/wangyuheng/doorman/master/.doc/doorman-feishu-app.png)
 
 #### 2. 管理后台->安全设计->添加sso域名
 
-![doorman-feishu-security](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-feishu-security.png)
+![doorman-feishu-security](https://raw.githubusercontent.com/wangyuheng/doorman/master/.doc/doorman-feishu-security.png)
 
 #### 3. 配置yaml配置文件
 
@@ -56,17 +56,17 @@ feishu:
 
 #### 1. 按照[官方文档](https://open.dingtalk.com/document/org/create-orgapp)创建H5网页应用，获取 clientId及clientSecret
 
-![doorman-dingtalk-app](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-app.png)
+![doorman-dingtalk-app](https://raw.githubusercontent.com/wangyuheng/doorman/master/.doc/doorman-dingtalk-app.png)
 
 #### 2. 管理后台->应用功能->登录与分享->回调域名
 
-![doorman-dingtalk-security](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-security.png)
+![doorman-dingtalk-security](https://raw.githubusercontent.com/wangyuheng/doorman/master/.doc/doorman-dingtalk-security.png)
 
 #### 3. 管理后台->基础信息->权限管理
 
 添加 **通讯录个人信息读权限** 权限
 
-![doorman-dingtalk-permission](https://raw.githubusercontent.com/geeklubcn/doorman/master/.doc/doorman-dingtalk-permission.png)
+![doorman-dingtalk-permission](https://raw.githubusercontent.com/wangyuheng/doorman/master/.doc/doorman-dingtalk-permission.png)
 
 #### 4. 配置yaml配置文件
 
@@ -94,7 +94,7 @@ dingtalk:
 下载依赖包
 
 ```shell
-go get github.com/geeklubcn/doorman/middleware
+go get github.com/wangyuheng/doorman/middleware
 ```
 
 使用middleware

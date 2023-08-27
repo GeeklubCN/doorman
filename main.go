@@ -1,46 +1,40 @@
 package main
 
 import (
+	"fmt"
+	"github.com/wangyuheng/doorman/core/utils"
+	"github.com/wangyuheng/doorman/pkg/middleware"
+	"github.com/wangyuheng/doorman/proxy"
+	"github.com/wangyuheng/doorman/sso"
 	"log"
 
-	"github.com/geeklubcn/doorman/middleware"
-	"github.com/geeklubcn/doorman/proxy"
-	"github.com/geeklubcn/doorman/sso"
-
-	"github.com/geeklubcn/doorman/conf"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"github.com/wangyuheng/doorman/config"
 )
 
 func main() {
-	cmd := parseCmd()
+	config.Init()
 
-	config, err := conf.NewParser().Parse(cmd.configPath)
-	if err != nil {
-		logrus.Fatal("read config fail: ", err)
-	}
-	if err = config.Init(); err != nil {
-		logrus.Fatal("init config fail: ", err)
-	}
-
-	f := sso.Register(sso.DINGTALK, config)
+	f := sso.Register(*config.GetConfig())
 
 	if gin.Mode() == gin.DebugMode {
 		logrus.SetLevel(logrus.DebugLevel)
 		logrus.SetFormatter(&logrus.JSONFormatter{})
 	}
 	r := gin.New()
-	r.Use(middleware.SSO(config.Cookie.Name, config.Domain+"/doorman"))
+	r.Use(middleware.SSO(config.GetConfig().Cookie.Name, config.GetConfig().Domain, config.GetConfig().CallbackPath, config.GetConfig().Feishu.RedirectUri))
 
 	r.Any("/*Any", func(ctx *gin.Context) {
-		if ctx.Request.URL.Path == "/doorman" {
+		if utils.EqualsPath(ctx.Request.URL.Path, config.GetConfig().CallbackPath) {
 			sso.Handler(f)(ctx)
 			return
 		}
-		proxy.NewGinHandler(config.RealAddr)(ctx)
+
+		proxy.NewGinHandler(config.GetConfig().RealAddr)(ctx)
 	})
 
-	err = r.Run(":80")
+	err := r.Run(fmt.Sprintf(":%d", config.GetConfig().PORT))
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}

@@ -1,9 +1,11 @@
 package sso
 
 import (
-	"net/http"
-
+	"encoding/base64"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/wangyuheng/doorman/config"
+	"net/http"
 )
 
 func Handler(f *Fact) gin.HandlerFunc {
@@ -18,7 +20,9 @@ func Handler(f *Fact) gin.HandlerFunc {
 				cookie := f.TokenCookie.Cookie(token)
 				c.SetCookie(cookie.Name, cookie.Value, cookie.MaxAge, cookie.Path, cookie.Domain, false, true)
 			}
-			c.Redirect(http.StatusFound, rUrl+"?doorman_token="+token)
+
+			rr, _ := base64.URLEncoding.DecodeString(rUrl)
+			c.Redirect(http.StatusFound, string(rr)+"?doorman_token="+token)
 			c.Abort()
 			return
 		}
@@ -39,7 +43,7 @@ func Handler(f *Fact) gin.HandlerFunc {
 			}
 		}
 		// redirectToLogin
-		c.Redirect(http.StatusFound, f.Router.LoginUrl(c.Request.URL.RawQuery))
+		c.Redirect(http.StatusFound, f.Router.LoginUrl(fmt.Sprintf("%s?%s", config.GetConfig().Domain, c.Request.URL.RawQuery)))
 		c.Abort()
 		return
 	}

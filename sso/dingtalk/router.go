@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/geeklubcn/doorman/conf"
-	"github.com/geeklubcn/doorman/core/route"
-	"github.com/geeklubcn/doorman/core/route/state"
+	"github.com/wangyuheng/doorman/config"
+	"github.com/wangyuheng/doorman/core/route"
+	"github.com/wangyuheng/doorman/core/route/state"
 )
 
 type router struct {
 	state  state.State
-	config conf.Dingtalk
+	config config.Dingtalk
 }
 
-func NewRouter(s state.State, config conf.Dingtalk) route.Router {
+func NewRouter(s state.State, config config.Dingtalk) route.Router {
 	return &router{
 		state:  s,
 		config: config,

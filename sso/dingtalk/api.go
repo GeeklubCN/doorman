@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/geeklubcn/doorman/conf"
+	"github.com/wangyuheng/doorman/config"
 )
 
 type Api interface {
@@ -16,7 +16,7 @@ type Api interface {
 	getUserInfo(authorization string) ([]byte, error)
 }
 
-func NewApi(config conf.Dingtalk) Api {
+func NewApi(config config.Dingtalk) Api {
 	return &api{
 		client: &http.Client{},
 		config: config,
@@ -25,10 +25,11 @@ func NewApi(config conf.Dingtalk) Api {
 
 type api struct {
 	client *http.Client
-	config conf.Dingtalk
+	config config.Dingtalk
 }
 
-/**
+/*
+*
 https://open.dingtalk.com/document/isvapp-server/obtain-user-token
 */
 func (a *api) getToken(code string) ([]byte, error) {
@@ -48,7 +49,8 @@ func (a *api) getToken(code string) ([]byte, error) {
 
 }
 
-/**
+/*
+*
 https://open.dingtalk.com/document/isvapp-server/dingtalk-retrieve-user-information
 */
 func (a *api) getUserInfo(authorization string) ([]byte, error) {

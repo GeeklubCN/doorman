@@ -1,21 +1,14 @@
 package sso
 
 import (
-	"log"
+	"github.com/wangyuheng/doorman/sso/dingtalk"
 
-	"github.com/geeklubcn/doorman/sso/dingtalk"
-
-	"github.com/geeklubcn/doorman/conf"
-	"github.com/geeklubcn/doorman/core/auth"
-	"github.com/geeklubcn/doorman/core/route"
-	"github.com/geeklubcn/doorman/core/route/state"
-	"github.com/geeklubcn/doorman/core/token"
-	"github.com/geeklubcn/doorman/sso/feishu"
-)
-
-const (
-	FEISHU   = iota
-	DINGTALK // https://open.dingtalk.com/document/isvapp-server/obtain-identity-credentials
+	"github.com/wangyuheng/doorman/config"
+	"github.com/wangyuheng/doorman/core/auth"
+	"github.com/wangyuheng/doorman/core/route"
+	"github.com/wangyuheng/doorman/core/route/state"
+	"github.com/wangyuheng/doorman/core/token"
+	"github.com/wangyuheng/doorman/sso/feishu"
 )
 
 const (
@@ -25,34 +18,33 @@ const (
 
 type PARAM int
 
-func Register(mode int8, config conf.Config) *Fact {
-	switch mode {
-	case FEISHU:
+func Register(cfg config.Config) *Fact {
+	switch cfg.Mode {
+	case config.ModeFeishu:
 		return &Fact{
 			map[PARAM]string{
 				CODE:  "code",
 				STATE: "state",
 			},
-			feishu.NewIdentifier(feishu.NewApi(config.Feishu)),
+			feishu.NewIdentifier(feishu.NewApi(*cfg.Feishu)),
 			token.Jwt,
 			token.Jwt,
-			route.NewTokenCookie(config.Cookie.Name, config.Cookie.Domain),
-			feishu.NewRouter(state.SimpleState{}, config.Feishu),
+			route.NewTokenCookie(cfg.Cookie.Name, cfg.Cookie.Domain),
+			feishu.NewRouter(state.SimpleState{}, *cfg.Feishu),
 		}
-	case DINGTALK:
+	case config.ModeDingtalk:
 		return &Fact{
 			map[PARAM]string{
 				CODE:  "authCode",
 				STATE: "state",
 			},
-			dingtalk.NewIdentifier(dingtalk.NewApi(config.Dingtalk)),
+			dingtalk.NewIdentifier(dingtalk.NewApi(*cfg.Dingtalk)),
 			token.Jwt,
 			token.Jwt,
-			route.NewTokenCookie(config.Cookie.Name, config.Cookie.Domain),
-			dingtalk.NewRouter(state.SimpleState{}, config.Dingtalk),
+			route.NewTokenCookie(cfg.Cookie.Name, cfg.Cookie.Domain),
+			dingtalk.NewRouter(state.SimpleState{}, *cfg.Dingtalk),
 		}
 	}
-	log.Fatalf("Unsupport mode: %d", mode)
 	return nil
 }
 

@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/geeklubcn/doorman/core"
+	"github.com/wangyuheng/doorman/core"
 )
 
 type Identifier interface {

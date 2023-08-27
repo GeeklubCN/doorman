@@ -1,6 +1,8 @@
 package state
 
-import "net/url"
+import (
+	"encoding/base64"
+)
 
 type State interface {
 	Encode(rawUrl string) string
@@ -10,9 +12,13 @@ type State interface {
 type SimpleState struct{}
 
 func (s SimpleState) Encode(rawUrl string) string {
-	return url.PathEscape(rawUrl)
+	return base64.URLEncoding.EncodeToString([]byte(rawUrl))
 }
 
 func (s SimpleState) Decode(escapedUrl string) (string, error) {
-	return url.PathUnescape(escapedUrl)
+	res, err := base64.URLEncoding.DecodeString(escapedUrl)
+	if err != nil {
+		return "", err
+	}
+	return string(res), nil
 }
