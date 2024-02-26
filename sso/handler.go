@@ -1,6 +1,7 @@
 package sso
 
 import (
+	"encoding/base64"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ func Handler(f *Fact) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 	just forward if authenticated
 		rUrl := c.Query("redirectUrl")
+		dUrl, _ := base64.URLEncoding.DecodeString(rUrl)
 		t := f.TokenCookie.Token(c.Request)
 		id, pass := f.Verifier.Verify(t)
 		if pass {
@@ -18,7 +20,7 @@ func Handler(f *Fact) gin.HandlerFunc {
 				cookie := f.TokenCookie.Cookie(token)
 				c.SetCookie(cookie.Name, cookie.Value, cookie.MaxAge, cookie.Path, cookie.Domain, false, true)
 			}
-			c.Redirect(http.StatusFound, rUrl+"?doorman_token="+token)
+			c.Redirect(http.StatusFound, string(dUrl)+"?doorman_token="+token)
 			c.Abort()
 			return
 		}
