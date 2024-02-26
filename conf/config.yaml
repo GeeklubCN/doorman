@@ -1,13 +1,13 @@
 domain: "http://sso.geeklub.cn"
 real_addr:
-  - "http://localhost:8001"
+  - "http://localhost:3001"
 cookie:
   name: "doorman_token"
   domain: "sso.geeklub.cn"
 feishu:
   base_url: "https://passport.feishu.cn"
-  client_id: "cli_xxx"
-  client_secret: "6nTXxxxx"
+  client_id: "cli_a13357194fb8500b"
+  client_secret: "6nTX231foOIH76ybhZpqKeSDTYtCKJ"
   redirect_uri: "http://sso.geeklub.cn/doorman"
 dingtalk:
   api_url: "https://api.dingtalk.com"

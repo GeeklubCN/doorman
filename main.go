@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/geeklubcn/doorman/middleware"
@@ -11,6 +12,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
+
+type Cmd struct {
+	configPath string
+}
+
+func parseCmd() Cmd {
+	var cmd Cmd
+	flag.StringVar(&cmd.configPath, "c", "./conf/config.yaml", "Path to the configuration filename")
+	flag.Parse()
+	return cmd
+}
 
 func main() {
 	cmd := parseCmd()
@@ -23,7 +35,7 @@ func main() {
 		logrus.Fatal("init config fail: ", err)
 	}
 
-	f := sso.Register(sso.DINGTALK, config)
+	f := sso.Register(sso.FEISHU, config)
 
 	if gin.Mode() == gin.DebugMode {
 		logrus.SetLevel(logrus.DebugLevel)
